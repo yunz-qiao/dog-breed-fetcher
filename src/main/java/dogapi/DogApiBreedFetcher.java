@@ -33,9 +33,11 @@ public class DogApiBreedFetcher implements BreedFetcher {
                 .url(url)
                 .build();
 
-        try {
-            // Execute the request and get the response
-            Response response = client.newCall(request).execute();
+        try (Response response = client.newCall(request).execute()) {
+            // Check if response body is null
+            if (response.body() == null) {
+                throw new BreedNotFoundException(breed);
+            }
 
             // Parse the JSON response
             String responseBody = response.body().string();
@@ -56,8 +58,8 @@ public class DogApiBreedFetcher implements BreedFetcher {
                 // Status is "error", throw BreedNotFoundException
                 throw new BreedNotFoundException(breed);
             }
-        } catch (IOException e) {
-            // Any IO errors (network failures, etc.) are reported as BreedNotFoundException
+        } catch (Exception e) {
+            // Any errors (IO, JSON parsing, etc.) are reported as BreedNotFoundException
             throw new BreedNotFoundException(breed);
         }
     }
