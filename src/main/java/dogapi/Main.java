@@ -2,6 +2,10 @@ package dogapi;
 
 import java.util.List;
 
+/**
+ * Main class demonstrating the use of BreedFetcher implementations.
+ * This class shows how to fetch sub-breeds using both valid and invalid breed names.
+ */
 public class Main {
 
     public static void main(String[] args) {
